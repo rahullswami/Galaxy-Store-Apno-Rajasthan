@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+
+{% block title %}Account{% endblock %}
+
+{% block contant %}
+
+
+<section class="ftco-section">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-12">
+                <div class="">
+                    <div class="row justify-content-center no-gutters ">
+                        <div class="col-lg-6 shadow rounded mt-0">
+                            <div class="contact-wrap w-100 p-md-5 p-4" style="margin-top: -66px;">
+                                <h3>Contact us</h3>
+                                <p class="mb-4">We're open for any suggestion or just to have a chat</p>
+                                <div id="form-message-warning" class="mb-4"></div>
+                                <div id="form-message-success" class="mb-4">
+                                    Your message was sent, thank you!
+                                </div>
+
+                                <form method="POST" id="contactForm" name="contactForm" class="contactForm" enctype="multipart/form-data">
+                                    {% csrf_token %}
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" name="fullname" id="name"
+                                                    placeholder="Full Name" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <input type="number" class="form-control" name="mobile" id="email"
+                                                    placeholder="Mobile Number" required>
+                                            </div>
+                                        </div>
+
+                                          <div class="col-md-12">
+                                            <div class="form-group">
+                                                <input type="email" class="form-control" name="email" id="email"
+                                                    placeholder="Email" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <input type="password" class="form-control" name="password" id="password"
+                                                    placeholder="Password" required>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <textarea name="address" class="form-control" id="address" cols="30"
+                                                    rows="4" placeholder="Address here"></textarea>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <textarea name="description" class="form-control" id="description"
+                                                    cols="30" rows="4" placeholder="Description here"></textarea>
+                                            </div>
+                                        </div>
+                                      
+                                        <div class="col-md-12">
+                                            <label for="Profile">Profile or Logo Image</label>
+                                            <div class="form-group">
+                                                <input type="file" class="form-control" name="image" id="image"
+                                                    placeholder="Profile or Logo Image" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <input type="submit" value="Create Account" class="btn btn-primary">
+                                                <div class="submitting"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                                <p>If you have an Account</p>
+                                <a href="{% url 'login' %}"><button class="btn btn-primary">Login</button></a>
+                                <div class="w-100 social-media mt-5">
+                                    <h3>Follow us here</h3>
+                                    <p>
+                                        <a href="#">Facebook</a>
+                                        <a href="#">Twitter</a>
+                                        <a href="#">Instagram</a>
+                                        <a href="#">Dribbble</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+{% endblock %}

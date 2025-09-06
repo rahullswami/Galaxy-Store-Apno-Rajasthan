@@ -1,0 +1,145 @@
+{% extends "base.html" %}
+{% block title %}Your Products{% endblock %}
+
+
+{% block contant %}
+
+ <style>
+    .hide-footer{
+        display: none;
+    }
+
+    .product-image {
+        width: 200px !important;
+        height: 200px !important;
+    }
+    .swiper-slide {
+        width: 200px !important;
+        height: auto !important;   
+    }
+ </style>
+
+<section class="ftco-section">
+    <div class="container">
+
+        <!-- Add Product Button -->
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+            Add Product
+        </button>
+
+        <!-- Modal Form -->
+        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5">Add Your Product</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body">
+
+                            <input type="text" class="form-control mb-2" name="pname" placeholder="Product Name"
+                                required>
+                            <input type="number" class="form-control mb-2" name="price" placeholder="Product Price"
+                                required>
+                            <input type="number" class="form-control mb-2" name="stock" placeholder="Product Stock"
+                                required>
+                            <input type="text" class="form-control mb-2" name="category" placeholder="Product Category"
+                                required>
+
+                            <!-- Multiple Images -->
+                            <input type="file" class="form-control mb-2" name="images" multiple required>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-success">Save Product</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+<section id="new-arrival" class="new-arrival product-carousel py-5 position-relative overflow-hidden">
+    <div class="container">
+
+        {% if category_products %}
+        {% for category, products in category_products.items %}
+        <h3 class="mb-3">{{ category|title }}</h3>
+
+        <div class="swiper product-swiper open-up" data-aos="zoom-out">
+            <div class="swiper-wrapper d-flex">
+
+                {% for p in products %}
+                <div class="swiper-slide">
+                    <div class="product-item image-zoom-effect link-effect">
+                        <div class="image-holder position-relative">
+
+                            {% for img in p.prod_images.all %}
+                            <a href="">
+                                <img src="{{ img.image.url }}" alt="{{ p.pname }}" class="product-image img-fluid"
+                                    style="height: 294px; width: 294px;">
+                            </a>
+                            {% endfor %}
+
+                            <a href="index.html" class="btn-icon btn-wishlist">
+                               {% if p.user.userimage and p.user.userimage.image %}
+  <img src="{{ p.user.userimage.image.url }}" 
+       alt="Profile" 
+       class="rounded-circle me-2" 
+       style="width: 40px; height: 40px; object-fit: cover;">
+{% else %}
+  <img src="/media/default.jpg" 
+       alt="Profile" 
+       class="rounded-circle me-2" 
+       style="width: 40px; height: 40px; object-fit: cover;">
+{% endif %}
+
+                            </a>
+
+                            <div class="product-content">
+                                <h5 class="element-title text-uppercase fs-5 mt-3">
+                                    <a href="">{{ p.pname }}</a>
+                                </h5>
+                                <a href="#" class="text-decoration-none">
+                                    <span>₹{{ p.price }} - Stock: {{ p.stock }}</span>
+                                </a>
+                            </div>
+
+                            {% if user == p.user %}
+                            <!-- sirf owner ko edit/delete dikhaye -->
+                            <div class="d-flex w-100">
+                                <a href="{% url 'edit_product' p.id %}" class=""></a><button type="button" class="btn btn-primary mr-2">Edit</button></a>
+                            <a href="{% url 'delete_product' p.id %}" class=""></a><button type="button" class="btn btn-primary">Delete</button></a>
+                            </div>
+                            {% endif %}
+
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+
+            </div>
+            <div class="swiper-pagination"></div>
+        </div>
+        {% endfor %}
+        {% else %}
+        <p>No products found in this category.</p>
+        {% endif %}
+
+        <div class="icon-arrow icon-arrow-left"><svg width="50" height="50" viewBox="0 0 24 24">
+                <use xlink:href="#arrow-left"></use>
+            </svg></div>
+        <div class="icon-arrow icon-arrow-right"><svg width="50" height="50" viewBox="0 0 24 24">
+                <use xlink:href="#arrow-right"></use>
+            </svg></div>
+    </div>
+</section>
+
+
+{% endblock %}
