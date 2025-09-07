@@ -8132,8 +8132,18 @@
     font-size: 14px;
     line-height: 1.8;
     font-weight: normal;
-    background: #f4f4f4;
+    /* background: #f4f4f4; */
     color: #666666; }
+    /* ...existing code... */
+body.homepage {
+    background-image: url("/static/images/bg-image.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-attachment: fixed;
+    background-color: transparent !important;
+}
+/* ...existing code... */
   
   a {
     -webkit-transition: .3s all ease;

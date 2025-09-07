@@ -17,6 +17,7 @@ html {
   -webkit-text-size-adjust: 100%; /* 2 */
 }
 
+
 /* Sections
    ========================================================================== */
 
@@ -27,6 +28,17 @@ html {
 body {
   margin: 0;
 }
+
+
+body.homepage {
+    background-image: url("/static/images/bg-image.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-attachment: fixed;
+    background-color: transparent !important;
+}
+
 
 /**
  * Render the `main` element consistently in IE.

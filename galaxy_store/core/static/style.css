@@ -41,6 +41,17 @@ body {
   letter-spacing: 0.03rem;
 }
 
+/* ...existing code... */
+body.homepage {
+    background-image: url("/static/images/bg-image.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-attachment: fixed;
+    background-color: transparent !important;
+}
+/* ...existing code... */
+
 h1,
 .h1,
 h2,
