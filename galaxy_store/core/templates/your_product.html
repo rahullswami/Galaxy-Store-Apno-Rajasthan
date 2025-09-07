@@ -4,8 +4,8 @@
 
 {% block contant %}
 
- <style>
-    .hide-footer{
+<style>
+    .hide-footer {
         display: none;
     }
 
@@ -13,11 +13,12 @@
         width: 200px !important;
         height: 200px !important;
     }
+
     .swiper-slide {
         width: 200px !important;
-        height: auto !important;   
+        height: auto !important;
     }
- </style>
+</style>
 
 <section class="ftco-section">
     <div class="container">
@@ -88,17 +89,13 @@
                             {% endfor %}
 
                             <a href="index.html" class="btn-icon btn-wishlist">
-                               {% if p.user.userimage and p.user.userimage.image %}
-  <img src="{{ p.user.userimage.image.url }}" 
-       alt="Profile" 
-       class="rounded-circle me-2" 
-       style="width: 40px; height: 40px; object-fit: cover;">
-{% else %}
-  <img src="/media/default.jpg" 
-       alt="Profile" 
-       class="rounded-circle me-2" 
-       style="width: 40px; height: 40px; object-fit: cover;">
-{% endif %}
+                                {% if p.user.userimage and p.user.userimage.image %}
+                                <img src="{{ p.user.userimage.image.url }}" alt="Profile" class="rounded-circle me-2"
+                                    style="width: 40px; height: 40px; object-fit: cover;">
+                                {% else %}
+                                <img src="/media/default.jpg" alt="Profile" class="rounded-circle me-2"
+                                    style="width: 40px; height: 40px; object-fit: cover;">
+                                {% endif %}
 
                             </a>
 
@@ -114,8 +111,10 @@
                             {% if user == p.user %}
                             <!-- sirf owner ko edit/delete dikhaye -->
                             <div class="d-flex w-100">
-                                <a href="{% url 'edit_product' p.id %}" class=""></a><button type="button" class="btn btn-primary mr-2">Edit</button></a>
-                            <a href="{% url 'delete_product' p.id %}" class=""></a><button type="button" class="btn btn-primary">Delete</button></a>
+                                <a href="{% url 'edit_product' p.id %}" class=""></a><button type="button"
+                                    class="btn btn-primary mr-2">Edit</button></a>
+                                <a href="{% url 'delete_product' p.id %}" class=""></a><button type="button"
+                                    class="btn btn-primary">Delete</button></a>
                             </div>
                             {% endif %}
 

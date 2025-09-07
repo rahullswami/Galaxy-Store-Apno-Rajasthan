@@ -13,8 +13,18 @@ def home(request):
         Q(hname__icontains = search)|
         Q(hdesc__icontains = search)
         )
+            # Sort products by newest first
+    prods = prods.order_by('-created_at')
+
+    # Group products by category (new categories will appear first)
+    grouped = {}
+    for prod in prods:
+        cat = prod.category
+        if cat not in grouped:
+            grouped[cat] = []
+        grouped[cat].append(prod)
         
-    return render(request, 'index.html',{'prods':prods})
+    return render(request, 'index.html',{'prods':prods, 'grouped':grouped})
 
 
 
