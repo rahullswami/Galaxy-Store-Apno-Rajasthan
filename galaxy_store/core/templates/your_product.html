@@ -18,15 +18,109 @@
         width: 200px !important;
         height: auto !important;
     }
+
+    .your-product {
+        margin-top: -150px;
+    }
 </style>
 
-<section class="ftco-section">
+<section class=" user-profile my-4">
+    <div class="align-items-center  d-flex cantainer justify-content-center">
+        <div class="card shadow-sm p-3 d-flex flex-row align-items-center ">
+
+            <!-- Profile Image -->
+            {% if user.userimage and user.userimage.image %}
+            <img src="{{ user.userimage.image.url }}" alt="Profile" class="rounded-circle me-3"
+                style="width: 80px; height: 80px; object-fit: cover;">
+            {% else %}
+            <img src="/media/default.jpg" alt="Profile" class="rounded-circle me-3"
+                style="width: 80px; height: 80px; object-fit: cover;">
+            {% endif %}
+
+            <!-- User Info -->
+            <div>
+                <h4 class="mb-1">{{ user.userprofile.fullname }}</h4>
+                <p class="mb-1"><strong>Email:</strong> {{ user.email }}</p>
+
+                <p class="mb-1"><strong>Mobile:</strong> {{ user.userprofile.mobile }}</p>
+                <span data-bs-toggle="modal" data-bs-target="#userProfileModal" style="cursor: pointer;">See More</span>
+            </div>
+
+            <div class="d-flex justify-content-between ms-auto">
+                <a href="{% url 'logout' %}" class="mx-2" style="color: red;">
+                    <button type="button" class="btn btn-primary">
+                        Logout
+                    </button>
+                </a>
+
+                <!-- Add Product Button -->
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                    Add Product
+                </button>
+
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+
+
+
+<!-- detailed user informaitons -->
+
+<!-- Modal -->
+<div class="modal fade" id="userProfileModal" tabindex="-1" aria-labelledby="userProfileModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+
+            <!-- Header -->
+            <div class="modal-header">
+                <h5 class="modal-title" id="userProfileModalLabel">User Profile</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <!-- Body -->
+            <div class="modal-body d-flex align-items-start">
+                <!-- Profile Image -->
+                {% if user.userimage and user.userimage.image %}
+                <img src="{{ user.userimage.image.url }}" alt="Profile" class="rounded-circle me-3"
+                    style="width: 80px; height: 80px; object-fit: cover;">
+                {% else %}
+                <img src="/media/default.jpg" alt="Profile" class="rounded-circle me-3"
+                    style="width: 80px; height: 80px; object-fit: cover;">
+                {% endif %}
+
+                <!-- User Info -->
+                <div>
+                    <h5 class="mb-1">{{ user.userprofile.fullname|default:user.get_full_name }}</h5>
+                    <p class="mb-1"><strong>Email:</strong> {{ user.email }}</p>
+                    <p class="mb-1"><strong>Mobile:</strong> {{ user.userprofile.mobile }}</p>
+                    <p class="mb-1"><strong>Address:</strong> {{ user.userprofile.address }}</p>
+                    <p class="mb-1"><strong>About:</strong> {{ user.userprofile.description }}</p>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+<section class="ftco-section ">
     <div class="container">
 
-        <!-- Add Product Button -->
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-            Add Product
-        </button>
+
 
         <!-- Modal Form -->
         <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
@@ -66,79 +160,78 @@
 
 
 
-<section id="new-arrival" class="new-arrival product-carousel py-5 position-relative overflow-hidden">
+<div class="container-fluid your-product">
+    {% if category_products %}
+  {% for category, products in category_products.items %}
+  <section id="new-arrival" class="new-arrival product-carousel  position-relative overflow-hidden">
     <div class="container">
 
-        {% if category_products %}
-        {% for category, products in category_products.items %}
-        <h3 class="mb-3">{{ category|title }}</h3>
+      <div class="swiper product-swiper open-up pb-5" data-aos="zoom-out">
+        <div class="swiper-wrapper d-flex">
 
-        <div class="swiper product-swiper open-up" data-aos="zoom-out">
-            <div class="swiper-wrapper d-flex">
+          {% for p in products %}
+          <div class="swiper-slide shadow bg-light py-1 px-2 " style="border-radius: 15px;">
+            <div class="product-item image-zoom-effect link-effect">
+              <div class="image-holder position-relative">
 
-                {% for p in products %}
-                <div class="swiper-slide">
-                    <div class="product-item image-zoom-effect link-effect">
-                        <div class="image-holder position-relative">
+                <!-- Category -->
+                <h5 class="mb-3">{{ category|title }}</h5>
 
-                            {% for img in p.prod_images.all %}
-                            <a href="">
-                                <img src="{{ img.image.url }}" alt="{{ p.pname }}" class="product-image img-fluid"
-                                    style="height: 294px; width: 294px;">
-                            </a>
-                            {% endfor %}
-
-                            <a href="index.html" class="btn-icon btn-wishlist">
-                                {% if p.user.userimage and p.user.userimage.image %}
-                                <img src="{{ p.user.userimage.image.url }}" alt="Profile" class="rounded-circle me-2"
-                                    style="width: 40px; height: 40px; object-fit: cover;">
-                                {% else %}
-                                <img src="/media/default.jpg" alt="Profile" class="rounded-circle me-2"
-                                    style="width: 40px; height: 40px; object-fit: cover;">
-                                {% endif %}
-
-                            </a>
-
-                            <div class="product-content">
-                                <h5 class="element-title text-uppercase fs-5 mt-3">
-                                    <a href="">{{ p.pname }}</a>
-                                </h5>
-                                <a href="#" class="text-decoration-none">
-                                    <span>₹{{ p.price }} - Stock: {{ p.stock }}</span>
-                                </a>
-                            </div>
-
-                            {% if user == p.user %}
-                            <!-- sirf owner ko edit/delete dikhaye -->
-                            <div class="d-flex w-100">
-                                <a href="{% url 'edit_product' p.id %}" class=""></a><button type="button"
-                                    class="btn btn-primary mr-2">Edit</button></a>
-                                <a href="{% url 'delete_product' p.id %}" class=""></a><button type="button"
-                                    class="btn btn-primary">Delete</button></a>
-                            </div>
-                            {% endif %}
-
-                        </div>
-                    </div>
-                </div>
+                <!-- Product Images -->
+                {% for img in p.prod_images.all %}
+                  <a href="#">
+                    <img src="{{ img.image.url }}" alt="{{ p.pname }}" 
+                         class="product-image img-fluid"
+                         style="width: 386.667px; height: 300px; border-radius: 15px;">
+                  </a>
                 {% endfor %}
 
-            </div>
-            <div class="swiper-pagination"></div>
-        </div>
-        {% endfor %}
-        {% else %}
-        <p>No products found in this category.</p>
-        {% endif %}
+                <!-- Product Content -->
+                <div class="product-content">
+                  <h5 class="element-title text-uppercase fs-5 mt-3">
+                    <a href="#">{{ p.pname|truncatechars:10 }}</a>
+                  </h5>
+                  <a href="#" class="text-decoration-none">
+                    <span>₹{{ p.price }} - Stock: {{ p.stock }}</span>
+                  </a>
+                </div>
 
-        <div class="icon-arrow icon-arrow-left"><svg width="50" height="50" viewBox="0 0 24 24">
-                <use xlink:href="#arrow-left"></use>
-            </svg></div>
-        <div class="icon-arrow icon-arrow-right"><svg width="50" height="50" viewBox="0 0 24 24">
-                <use xlink:href="#arrow-right"></use>
-            </svg></div>
+                <!-- Owner Actions -->
+                {% if user == p.user %}
+                <div class="d-flex w-100 mt-2">
+                  <a href="{% url 'edit_product' p.id %}" ><button class="btn btn-primary">Edit</button></a>
+                  <a href="{% url 'delete_product' p.id %}"><button class="btn btn-danger mx-2">Delete</button></a>
+                </div>
+                {% endif %}
+
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+
+        </div>
+        <div class="swiper-pagination"></div>
+      </div>
+
+      <!-- Swiper Navigation -->
+      <div class="icon-arrow icon-arrow-left">
+        <svg width="50" height="50" viewBox="0 0 24 24">
+          <use xlink:href="#arrow-left"></use>
+        </svg>
+      </div>
+      <div class="icon-arrow icon-arrow-right">
+        <svg width="50" height="50" viewBox="0 0 24 24">
+          <use xlink:href="#arrow-right"></use>
+        </svg>
+      </div>
+
     </div>
-</section>
+  </section>
+  {% endfor %}
+{% else %}
+  <p class="text-center">You have not added any products yet.</p>
+{% endif %}
+</div>
 
 
 {% endblock %}

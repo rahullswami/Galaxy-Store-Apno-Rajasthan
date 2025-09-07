@@ -185,16 +185,22 @@ def your_products(request):
         messages.success(request, "Product added successfully!")
         return redirect("your_products")
 
-    products = Prod.objects.filter(user=request.user)
-     # categories nikalna
-    categories = Prod.objects.values_list("category", flat=True).distinct()
+    # ✅ Sirf current user ke products
+    products = Prod.objects.filter(user=request.user).order_by("-created_at")
 
-    # category wise products (dictionary banane ke liye)
+    # ✅ Sirf current user ke categories
+    categories = products.values_list("category", flat=True).distinct()
+
+    # ✅ Category-wise products
     category_products = {}
     for cat in categories:
-        category_products[cat] = Prod.objects.filter(category=cat).order_by("-created_at")
-    
-    return render(request, "your_product.html", {"products": products, "category_products": category_products})
+        category_products[cat] = products.filter(category=cat)
+
+    return render(
+        request,
+        "your_product.html",
+        {"products": products, "category_products": category_products},
+    )
 
 
 # ✏️ Edit product

@@ -21,7 +21,7 @@ def login_page(request):
 
         else:
             login(request, user)
-            return redirect('home')
+            return redirect('your_products')
 
     return render(request, 'login.html')
 
@@ -65,7 +65,7 @@ def register(request):
         user_image.save()
 
         messages.success(request, 'Your account created successfully')
-        return redirect('home')
+        return redirect('your_products')
 
 
 
@@ -73,4 +73,4 @@ def register(request):
 
 def logout_page(request):
     logout(request)
-    return redirect('home')
+    return redirect('login')

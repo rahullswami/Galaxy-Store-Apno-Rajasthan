@@ -17,7 +17,6 @@
 <section id="new-arrival" class="new-arrival product-carousel py-5 position-relative overflow-hidden">
     <div class="container">
       <div class="d-flex flex-wrap justify-content-between align-items-center mt-5 mb-3">
-        <h4 class="text-uppercase">{{ cat_label }}</h4>
         <a href="{% url 'products' %}" class="btn-link">View All Products</a>
       </div>
       {% if products %}
@@ -26,11 +25,15 @@
 
             {% for prod in products %}
 
-          <div class="swiper-slide">
+          <div class="swiper-slide shadow bg-light py-1 px-2 " style="border-radius: 15px;">
             <div class="product-item image-zoom-effect link-effect">
               <div class="image-holder position-relative">
+
+                  <!-- Category -->
+                <h5 class="mb-3">{{ cat_label }}</h5>
+
                 <a href="{% url 'prod_details' prod.id %}">
-                  <img src="/media/{{ prod.prod_images.first.image }}" alt="categories" class="product-image img-fluid" style="height: 294px; width: 294px;">
+                  <img src="/media/{{ prod.prod_images.first.image }}" alt="categories" class="product-image img-fluid" style="height: 294px; width: 294px; border-radius: 15px;">
                 </a>
                 <a href="index.html" class="btn-icon btn-wishlist">
                   <svg width="24" height="24" viewBox="0 0 24 24">
@@ -39,7 +42,7 @@
                 </a>
                 <div class="product-content">
                   <h5 class="element-title text-uppercase fs-5 mt-3">
-                    <a href="{% url 'prod_details' prod.id %}">{{prod.pname}}</a>
+                    <a href="{% url 'prod_details' prod.id %}">{{prod.pname|truncatechars:10}}</a>
                   </h5>
                   <a href="#" class="text-decoration-none" data-after="Add to cart"><span>${{ prod.price }}</span></a>
                 </div>
